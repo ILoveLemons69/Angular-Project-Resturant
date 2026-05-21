@@ -1,0 +1,156 @@
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.card-link-wrapper {
+  display: block;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    aspect-ratio: 16/12;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  .card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    .card-title {
+      margin-bottom: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .info-btn {
+      padding: 2px 8px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .card-text {
+    flex: 1;
+    margin-bottom: 0.75rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+  .price-text {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 0.75rem;
+  }
+
+  .label-text {
+    font-size: 0.95rem;
+    color: #495057;
+    
+    strong {
+      color: #000;
+      font-size: 1.05rem;
+      margin-left: 4px;
+    }
+  }
+
+  .total-item-price {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: #dc3545;
+    margin-bottom: 0;
+    align-self: center;
+  }
+}
+
+.card-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+
+  .btn {
+    flex: 1;
+    white-space: nowrap;
+  }
+}
+
+.card-qty-selector {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 2px;
+
+  .card-qty-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #495057;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    transition: background-color 0.2s ease;
+
+    &:hover:not([disabled]) {
+      background-color: #e9ecef;
+    }
+
+    &:disabled {
+      color: #adb5bd;
+      cursor: not-allowed;
+    }
+  }
+
+  .card-qty-display {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+}
+
+
+.card-qty-btn {
+    position: relative;
+    p{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-40%, -50%);
+    }
+}
+
+.btn.btn-success {
+    background-color: rgb(242, 119, 19);
+    border-color: white;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background-color: rgb(230, 107, 5);
+    }
+}

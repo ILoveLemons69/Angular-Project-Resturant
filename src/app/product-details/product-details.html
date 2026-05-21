@@ -1,0 +1,60 @@
+@if (detailsData()?.data) {
+  <div class="product-card">
+    <div class="image-wrapper">
+      <img [src]="detailsData()!.data.image" [alt]="detailsData()!.data.name">
+    </div>
+    
+    <div class="product-info">
+      <div class="header-row">
+        <h2>{{ detailsData()!.data.name }}</h2>
+        <span class="price">${{ detailsData()!.data.price }}</span>
+      </div>
+
+      <div class="badges">
+        @if (detailsData()!.data.vegetarian) {
+          <span class="badge vegetarian">Vegetarian</span>
+        }
+        <span class="badge rating">★ {{ detailsData()!.data.rate }}</span>
+        <span class="badge spicy">🌶️ {{ detailsData()!.data.spiciness }}</span>
+      </div>
+
+      <p class="description">{{ detailsData()!.data.description }}</p>
+
+      <h3>Ingredients</h3>
+      <ul class="ingredients-list">
+        @for (ingredient of detailsData()!.data.ingredients; track $index) {
+          <li>{{ ingredient }}</li>
+        }
+      </ul>
+
+      <h3>Preparation Method</h3>
+      <p class="method">{{ detailsData()!.data.method }}</p>
+      <div class="cart-actions-wrapper">
+        <div class="quantity-selector">
+            <button class="qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1"><p>−</p></button>
+            <span class="qty-display">{{ quantity() }}</span>
+            <button class="qty-btn" (click)="incrementQuantity()"><p>+</p></button>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-add" (click)="addToCart()">
+            Add to Cart
+            </button>
+            
+            <button class="btn btn-delete" (click)="deleteFromCart()">
+            <svg xmlns="http://w3.org" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
+            </svg>
+            Remove
+            </button>
+        </div>
+    </div>
+
+    </div>
+  </div>
+} @else {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading pastry details...</p>
+  </div>
+}

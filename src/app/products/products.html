@@ -1,0 +1,30 @@
+<section class="menu-layout">
+  <div class="filter-sidebar">
+    <app-filter
+      [isFiltered]="isFiltered()"
+      [page]="page()"
+      (filteredProducts)="getFilteredData($event)"
+      (isFilteredSignal)="isFiltered.set($event)"
+    ></app-filter>
+  </div>
+  
+  <section class="products-layout">
+    <div class="cards-grid">
+      @for (item of products(); track item.id) {
+        <div class="card-item">
+          <app-card [cardData]="item" (itemRemoved)="getProducts()"></app-card>
+        </div>
+      }
+    </div>
+    
+    <div class="pagination-container">
+      @if (page() > 1) {
+        <button class="btn btn-dark" (click)="getPreviousPage()">Previous</button>
+      }
+      <span class="page-indicator">Page {{ page() }}</span>
+      @if (hasMore()) {
+        <button class="btn btn-dark" (click)="getNextPage()">Next</button>
+      }
+    </div>
+  </section>
+</section>

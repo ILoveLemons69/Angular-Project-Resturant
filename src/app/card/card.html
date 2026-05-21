@@ -1,0 +1,55 @@
+@if (cardData()) {
+  <div class="card">
+    <a [routerLink]="['/menu', cardData()?.id]" class="card-link-wrapper">
+      <img [src]="cardData()?.image" class="card-img-top" alt="..." />
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">{{ cardData()?.name }}</h5>
+      <p class="card-text">
+        {{ cardData()?.description }}
+      </p>
+      <p class="card-text price-text">Price: {{ cardData()?.price | currency: 'GEL' }}</p>
+      
+      <div class="card-actions-row">
+        <div class="card-qty-selector">
+          <button class="card-qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1"><p>−</p></button>
+          <span class="card-qty-display">{{ quantity() }}</span>
+          <button class="card-qty-btn" (click)="incrementQuantity()"><p>+</p></button>
+        </div>
+        <button (click)="addToCart(cardData()!.id)" class="btn btn-success">Add To Cart</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (cartItemData()) {
+  <div class="card">
+    <a [routerLink]="['/menu', cartItemData()?.product?.id]" class="card-link-wrapper">
+      <img [src]="cartItemData()?.product?.image" class="card-img-top" alt="..." />
+    </a>
+    <div class="card-body">
+      <div class="card-header-row">
+        <h5 class="card-title">{{ cartItemData()?.product?.name }}</h5>
+        <button class="btn btn-outline-primary btn-sm info-btn" (click)="showDescription(cartItemData()!.product!.name, cartItemData()!.product!.description)">
+          ℹ Info
+        </button>
+      </div>
+      <p class="card-text price-text">
+        Each: {{ cartItemData()!.product!.price | currency: 'GEL' }}
+      </p>
+      
+      <div class="card-actions-row mb-2">
+        <span class="label-text">Quantity Chosen: <strong>{{ cartItemData()!.quantity }}</strong></span>
+      </div>
+
+      <div class="card-actions-row mt-auto">
+        <p class="card-text total-item-price">
+          Total: {{ cartItemData()!.product!.price * cartItemData()!.quantity | currency: 'GEL' }}
+        </p>
+        <button (click)="removeFromCart(cartItemData()!.id)" class="btn btn-danger">
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+}

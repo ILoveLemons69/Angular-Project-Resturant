@@ -1,0 +1,36 @@
+<div class="cart-page-container">
+  <h2 class="cart-heading">Checkout Hub</h2>
+
+  @if (cartData()?.data?.items?.length) {
+    <div class="cart-workspace">
+      
+      <div class="cart-grid">
+        @for (item of cartData()!.data.items; track item.id) {
+          <div class="cart-grid-item">
+            <app-card [cartItemData]="item" (itemRemoved)="loadCart()"></app-card>
+          </div>
+        }
+      </div>
+
+      <div class="checkout-sidebar">
+        <div class="summary-box">
+          <h3>Order Summary</h3>
+          <div class="summary-row">
+            <span>Total Items:</span>
+            <strong>{{ totalPhysicalItems() }}</strong>
+          </div>
+          <div class="summary-row total-row">
+            <span>Grand Total:</span>
+            <strong>{{ cartData()!.data.totalPrice | currency: 'GEL' }}</strong>
+          </div>
+          <button type="button" class="btn-submit-order" (click)="processCheckout()">Place Order</button>
+        </div>
+      </div>
+
+    </div>
+  } @else {
+    <div class="empty-cart-state">
+      <p>Your cart is empty.</p>
+    </div>
+  }
+</div>

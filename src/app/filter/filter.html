@@ -1,0 +1,52 @@
+<form [formGroup]="filterForm" (ngSubmit)="submit()" class="filter-form">
+  <h3 class="filter-title">Filter Catalog</h3>
+
+  <div class="input-group">
+    <label for="query">Search Dishes</label>
+    <input type="text" id="query" [formControl]="filterForm.controls.query" placeholder="Type to search..." />
+  </div>
+
+  <div class="input-group checkbox-group">
+    <input type="checkbox" id="vegetarian" [formControl]="filterForm.controls.vegetarian" />
+    <label for="vegetarian">Vegetarian Only</label>
+  </div>
+
+  <div class="input-group">
+    <label for="spiciness">Spiciness Level</label>
+    <input type="number" id="spiciness" [formControl]="filterForm.controls.spiciness" min="0" placeholder="0" />
+    @if (filterForm.controls.spiciness.invalid && filterForm.controls.spiciness.touched) {
+      <span class="error-hint">Spiciness level cannot be a negative value.</span>
+    }
+  </div>
+
+  <div class="input-group">
+    <label for="rate">Minimum Rating</label>
+    <input type="text" id="rate" [formControl]="filterForm.controls.rate" placeholder="e.g. 4.5" />
+    @if (filterForm.controls.rate.invalid && filterForm.controls.rate.touched) {
+      <span class="error-hint">Please input a valid decimal rating (0 to 5).</span>
+    }
+  </div>
+
+  <div class="price-range-grid">
+    <div class="input-group">
+      <label for="minPrice">Min Price</label>
+      <input type="text" id="minPrice" [formControl]="filterForm.controls.minPrice" placeholder="₾ Min" />
+      @if (filterForm.controls.minPrice.invalid && filterForm.controls.minPrice.touched) {
+        <span class="error-hint">Must be a valid positive price.</span>
+      }
+    </div>
+
+    <div class="input-group">
+      <label for="maxPrice">Max Price</label>
+      <input type="text" id="maxPrice" [formControl]="filterForm.controls.maxPrice" placeholder="₾ Max" />
+      @if (filterForm.controls.maxPrice.invalid && filterForm.controls.maxPrice.touched) {
+        <span class="error-hint">Must be a valid positive price.</span>
+      }
+    </div>
+  </div>
+
+  <div class="filter-actions">
+    <button (click)="clearFilter()" type="button" class="button-clear-filter">Clear</button>
+    <button type="submit" class="button-filter" [disabled]="filterForm.invalid">Apply Filter</button>
+  </div>
+</form>

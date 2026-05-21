@@ -1,0 +1,59 @@
+<div class="profile-page-container">
+  @if (userData()) {
+    <div class="profile-card-group">
+      
+      <div class="profile-card">
+        <div class="profile-avatar">
+          {{ userData().firstName?.charAt(0) }}{{ userData().lastName?.charAt(0) }}
+        </div>
+        <h2 class="profile-name">{{ userData().firstName }} {{ userData().lastName }}</h2>
+        <p class="profile-email">{{ userData().email }}</p>
+        
+        <div class="profile-details-list">
+          <div class="detail-row">
+            <span>Account ID:</span>
+            <strong>#{{ userData().id }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>Role Status:</span>
+            <span class="badge-role">User</span>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <button class="btn-delete-account" (click)="deleteProfile()">Deactivate Account</button>
+        </div>
+      </div>
+
+      <div class="password-card">
+        <h3>Security Settings</h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()">
+          <div class="input-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" [formControl]="passwordForm.controls.currentPassword" placeholder="••••••••" />
+          </div>
+
+          <div class="input-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" [formControl]="passwordForm.controls.newPassword" placeholder="Minimum 6 characters + special character" />
+            @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
+              <span class="error-hint">Must be at least 6 characters and include a special character (e.g. @, #, $).</span>
+            }
+          </div>
+
+          <div class="input-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" [formControl]="passwordForm.controls.confirmPassword" placeholder="••••••••" />
+          </div>
+
+          <button type="submit" class="btn-password-submit" [disabled]="passwordForm.invalid">Update Password</button>
+        </form>
+      </div>
+
+    </div>
+  } @else {
+    <div class="loading-profile">
+      <p>Loading your profile details...</p>
+    </div>
+  }
+</div>

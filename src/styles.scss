@@ -1,0 +1,52 @@
+.active {
+    color: rgb(65, 90, 16);
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+app-home, app-cart, app-products, app-login, app-register, app-profile {
+  display: block;
+  animation: fadeSlideUp 0.8s ease-out;
+}
+
+button {
+  border: 1px solid black;
+  border-radius: 16px !important;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.route-animate {
+  display: block;
+  animation: pageFadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+input{
+  border-radius: 4px !important;
+}
+
+@media screen and (max-width: 330px) {
+  .button-filter{
+    font-size: 0.75rem !important;
+  }
+}

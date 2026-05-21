@@ -1,0 +1,166 @@
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+
+  .filter-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 4px 0;
+    border-bottom: 2px dashed #fce8d7;
+    padding-bottom: 12px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #495057;
+      transition: color 0.25s ease;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #ffffff;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #fd7e14;
+        box-shadow: 0 0 0 3px rgba(253, 126, 20, 0.15);
+      }
+
+      &::placeholder {
+        color: #adb5bd;
+      }
+
+      &.ng-invalid.ng-touched {
+        border-color: #dc3545;
+        background-color: #fffdfd;
+
+        &:focus {
+          box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+        }
+      }
+    }
+
+    .error-hint {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #dc3545;
+      margin-top: 2px;
+      animation: fadeInHint 0.25s ease forwards;
+    }
+  }
+
+  .checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #fd7e14;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:active {
+        transform: scale(0.92);
+      }
+    }
+
+    label {
+      margin-bottom: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  .price-range-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .filter-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #fce8d7;
+    padding-top: 20px;
+  }
+
+  .button-clear-filter {
+    flex: 1;
+    height: 44px;
+    background-color: #ffffff;
+    color: #dc3545;
+    border: 1px solid #ffcbd1;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
+
+    &:hover {
+      background-color: #dc3545;
+      color: #ffffff;
+      border-color: #dc3545;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  .button-filter {
+    flex: 2;
+    height: 44px;
+    background-color: #fd7e14;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+
+    &:hover:not([disabled]) {
+      background-color: #e66b05;
+      box-shadow: 0 4px 12px rgba(230, 107, 5, 0.2);
+    }
+
+    &:disabled {
+      background-color: #cbd5e1;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &:active:not([disabled]) {
+      transform: scale(0.96);
+    }
+  }
+}
+
+@keyframes fadeInHint {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+input{
+  border-radius: 4px !important;
+}
