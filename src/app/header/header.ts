@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../services/user-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,19 @@ export class Header {
   }
 
   logout(): void {
-    this.service.logout();
-    this.isMenuOpen.set(false);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of your account.',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#cf1414',
+      confirmButtonColor: 'green',
+      confirmButtonText: 'yes'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.logout();
+        this.isMenuOpen.set(false);
+      }
+    })
   }
 }

@@ -26,7 +26,15 @@ export class Register {
     if (this.registerForm.invalid) {
       return;
     }
-
+    Swal.fire({
+      title: 'Please wait',
+      text: 'Your information in being checked, please wait a moment',
+      icon: 'info',
+      showConfirmButton: false,
+      timer: 45000,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
     this.service
       .register({
         firstName: this.registerForm.controls.firstName.value ?? '',

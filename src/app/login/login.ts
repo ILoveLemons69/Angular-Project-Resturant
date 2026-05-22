@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../services/user-service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,15 @@ export class Login {
   });
 
   public submit() {
+    Swal.fire({
+      title: 'Please wait',
+      text: 'Your information in being checked, please wait a moment',
+      icon: 'info',
+      showConfirmButton: false,
+      timer: 45000,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
     this.service
       .login({
         email: this.loginForm.controls.email.value ?? '',
@@ -30,9 +40,21 @@ export class Login {
           console.log(data);
           this.service.storeJWTToken(data.data.accessToken);
           this.router.navigate(['']);
+          Swal.fire({
+            title: 'Success!',
+            text: 'You logged in successfully!',
+            icon: 'success',
+            confirmButtonText: 'ok'
+          });
         },
         error: (error) => {
           console.error(error);
+          Swal.fire({
+            title: 'Oops',
+            text: 'Your password or registration is wrong, please try again',
+            icon: 'error',
+            confirmButtonText: 'ok'
+          });
         },
       });
   }
