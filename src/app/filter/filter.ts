@@ -1,6 +1,6 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IResponse, RestaurntService } from '../services/restaurnt-service';
+import { IResponse, RestaurntService, ICategory } from '../services/restaurnt-service';
 
 @Component({
   selector: 'app-filter',
@@ -8,7 +8,7 @@ import { IResponse, RestaurntService } from '../services/restaurnt-service';
   templateUrl: './filter.html',
   styleUrl: './filter.scss',
 })
-export class Filter {
+export class Filter implements OnInit {
   private service = inject(RestaurntService);
   private fb = inject(FormBuilder);
 
@@ -18,6 +18,8 @@ export class Filter {
   public filteredProducts = output<IResponse>();
   public isFilteredSignal = output<boolean>();
 
+  public categories = signal<ICategory[]>([]);
+
   public filterForm = this.fb.group({
     query: this.fb.control('', []),
     vegetarian: this.fb.control(undefined, []),
@@ -25,7 +27,7 @@ export class Filter {
     rate: this.fb.control<number | undefined>(undefined, [Validators.min(0), Validators.max(5), Validators.pattern(/^\d+(\.\d+)?$/)]),
     minPrice: this.fb.control<number | undefined>(undefined, [Validators.min(0), Validators.pattern(/^\d+(\.\d+)?$/)]),
     maxPrice: this.fb.control<number | undefined>(undefined, [Validators.min(0), Validators.pattern(/^\d+(\.\d+)?$/)]),
-    categoryId: this.fb.control(undefined, []),
+    categoryId: this.fb.control<any>(null, []),
   });
 
   constructor() {
@@ -33,6 +35,13 @@ export class Filter {
       if (this.isFiltered()) {
         this.submit();
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.service.getCategories().subscribe({
+      next: (res) => this.categories.set(res.data),
+      error: (error) => console.error(error),
     });
   }
 
@@ -49,7 +58,7 @@ export class Filter {
         rate: this.filterForm.controls.rate.value ?? undefined,
         minPrice: this.filterForm.controls.minPrice.value ?? undefined,
         maxPrice: this.filterForm.controls.maxPrice.value ?? undefined,
-        categoryId: this.filterForm.controls.categoryId.value ?? undefined,
+        categoryId: this.filterForm.controls.categoryId.value || undefined,
         take: 10,
         page: this.page() ?? undefined,
       })
@@ -71,9 +80,8 @@ export class Filter {
       rate: undefined,
       minPrice: undefined,
       maxPrice: undefined,
-      categoryId: undefined,
+      categoryId: null,
     });
-
     this.isFilteredSignal.emit(false);
   }
 }

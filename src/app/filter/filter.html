@@ -6,6 +6,18 @@
     <input type="text" id="query" [formControl]="filterForm.controls.query" placeholder="Type to search..." />
   </div>
 
+  <div class="input-group">
+    <label for="categoryId">Category</label>
+    <div class="select-container-box">
+      <select id="categoryId" [formControl]="filterForm.controls.categoryId" class="pretty-select-field">
+        <option [ngValue]="null">All Categories</option>
+        @for (cat of categories(); track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
   <div class="input-group checkbox-group">
     <input type="checkbox" id="vegetarian" [formControl]="filterForm.controls.vegetarian" />
     <label for="vegetarian">Vegetarian Only</label>
