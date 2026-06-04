@@ -70,6 +70,13 @@ export class ProductDetails implements OnInit {
           }
         },
         error: (error) => {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Login required',
+            text: 'You have to log in before making a purchase.',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+          });
           console.error(error);
         },
       });
