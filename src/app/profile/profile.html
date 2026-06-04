@@ -3,9 +3,16 @@
     <div class="profile-card-group">
       
       <div class="profile-card">
-        <div class="profile-avatar">
-          {{ userData().firstName?.charAt(0) }}{{ userData().lastName?.charAt(0) }}
+        <div class="profile-avatar-container">
+          @if (userData().picture) {
+            <img [src]="userData().picture" alt="Profile Picture" class="profile-avatar-img" />
+          } @else {
+            <div class="profile-avatar">
+              {{ userData().firstName?.charAt(0) }}{{ userData().lastName?.charAt(0) }}
+            </div>
+          }
         </div>
+        
         <h2 class="profile-name">{{ userData().firstName }} {{ userData().lastName }}</h2>
         <p class="profile-email">{{ userData().email }}</p>
         
@@ -14,6 +21,24 @@
             <span>Account ID:</span>
             <strong>#{{ userData().id }}</strong>
           </div>
+          @if (userData().age) {
+            <div class="detail-row">
+              <span>Age:</span>
+              <strong>{{ userData().age }}</strong>
+            </div>
+          }
+          @if (userData().phoneNumber) {
+            <div class="detail-row">
+              <span>Phone:</span>
+              <strong>{{ userData().phoneNumber }}</strong>
+            </div>
+          }
+          @if (userData().address) {
+            <div class="detail-row">
+              <span>Address:</span>
+              <strong>{{ userData().address }}</strong>
+            </div>
+          }
           <div class="detail-row">
             <span>Role Status:</span>
             <span class="badge-role">User</span>
@@ -25,29 +50,79 @@
         </div>
       </div>
 
-      <div class="password-card">
-        <h3>Security Settings</h3>
-        <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()">
-          <div class="input-group">
-            <label for="currentPassword">Current Password</label>
-            <input type="password" id="currentPassword" [formControl]="passwordForm.controls.currentPassword" placeholder="••••••••" />
-          </div>
+      <div class="forms-column">
+        
+        <div class="password-card">
+          <h3>Edit Profile Details</h3>
+          <form [formGroup]="editProfileForm" (ngSubmit)="submitProfileEdit()">
+            <div class="input-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" [formControl]="editProfileForm.controls.firstName" placeholder="First Name" />
+              @if (editProfileForm.controls.firstName.invalid && editProfileForm.controls.firstName.touched) {
+                <span class="error-hint">First name is required.</span>
+              }
+            </div>
 
-          <div class="input-group">
-            <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" [formControl]="passwordForm.controls.newPassword" placeholder="Minimum 6 characters + special character" />
-            @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
-              <span class="error-hint">Must be at least 6 characters and include a special character (e.g. @, #, $).</span>
-            }
-          </div>
+            <div class="input-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" [formControl]="editProfileForm.controls.lastName" placeholder="Last Name" />
+              @if (editProfileForm.controls.lastName.invalid && editProfileForm.controls.lastName.touched) {
+                <span class="error-hint">Last name is required.</span>
+              }
+            </div>
 
-          <div class="input-group">
-            <label for="confirmPassword">Confirm New Password</label>
-            <input type="password" id="confirmPassword" [formControl]="passwordForm.controls.confirmPassword" placeholder="••••••••" />
-          </div>
+            <div class="input-group">
+              <label for="picture">Photo URL</label>
+              <input type="text" id="picture" [formControl]="editProfileForm.controls.picture" placeholder="https://example.com" />
+            </div>
 
-          <button type="submit" class="btn-password-submit" [disabled]="passwordForm.invalid">Update Password</button>
-        </form>
+            <div class="input-group">
+              <label for="phoneNumber">Phone Number</label>
+              <input type="text" id="phoneNumber" [formControl]="editProfileForm.controls.phoneNumber" placeholder="+995 5xx xxx xxx" />
+            </div>
+
+            <div class="input-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" [formControl]="editProfileForm.controls.address" placeholder="Tbilisi, Georgia" />
+            </div>
+
+            <div class="input-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" [formControl]="editProfileForm.controls.age" placeholder="21" />
+              @if (editProfileForm.controls.age.invalid && editProfileForm.controls.age.touched) {
+                <span class="error-hint">Age must be a valid number between 1 and 120.</span>
+              }
+            </div>
+
+            <button type="submit" class="btn-password-submit" [disabled]="editProfileForm.invalid">Save Changes</button>
+          </form>
+        </div>
+
+        <div class="password-card">
+          <h3>Security Settings</h3>
+          <form [formGroup]="passwordForm" (ngSubmit)="submitPassword()">
+            <div class="input-group">
+              <label for="currentPassword">Current Password</label>
+              <input type="password" id="currentPassword" [formControl]="passwordForm.controls.currentPassword" placeholder="••••••••" />
+            </div>
+
+            <div class="input-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" [formControl]="passwordForm.controls.newPassword" placeholder="Minimum 6 characters + special character" />
+              @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
+                <span class="error-hint">Must be at least 6 characters and include a special character (e.g. @, #, $).</span>
+              }
+            </div>
+
+            <div class="input-group">
+              <label for="confirmPassword">Confirm New Password</label>
+              <input type="password" id="confirmPassword" [formControl]="passwordForm.controls.confirmPassword" placeholder="••••••••" />
+            </div>
+
+            <button type="submit" class="btn-password-submit" [disabled]="passwordForm.invalid">Update Password</button>
+          </form>
+        </div>
+
       </div>
 
     </div>

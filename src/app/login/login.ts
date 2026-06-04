@@ -21,6 +21,11 @@ export class Login {
   });
 
   public submit() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
     Swal.fire({
       title: 'Please wait',
       text: 'Your information in being checked, please wait a moment',
@@ -30,24 +35,29 @@ export class Login {
       allowOutsideClick: false,
       allowEscapeKey: false
     });
+
+    const enteredEmail = this.loginForm.controls.email.value ?? '';
+
     this.service
       .login({
-        email: this.loginForm.controls.email.value ?? '',
+        email: enteredEmail,
         password: this.loginForm.controls.password.value ?? '',
       })
       .subscribe({
-        next: (data) => {
-          console.log(data);
+        next: (data: any) => {
+          localStorage.setItem('current_user_email', enteredEmail);
           this.service.storeJWTToken(data.data.accessToken);
-          this.router.navigate(['']);
+
           Swal.fire({
             title: 'Success!',
             text: 'You logged in successfully!',
             icon: 'success',
             confirmButtonText: 'ok'
+          }).then(() => {
+            this.router.navigate(['/profile']);
           });
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error(error);
           Swal.fire({
             title: 'Oops',

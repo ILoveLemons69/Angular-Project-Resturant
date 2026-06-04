@@ -95,3 +95,16 @@
 .btn-auth-submit:active {
   transform: scale(0.98);
 }
+
+.btn-auth-submit:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-hint {
+  font-size: 0.8rem;
+  color: #dc3545;
+  margin-top: 4px;
+}

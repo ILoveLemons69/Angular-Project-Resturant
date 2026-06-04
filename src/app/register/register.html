@@ -8,25 +8,55 @@
         <div class="input-group">
           <label for="firstName">First Name</label>
           <input type="text" id="firstName" [formControl]="registerForm.controls.firstName" placeholder="Guram" />
+          @if (registerForm.controls.firstName.invalid && registerForm.controls.firstName.touched) {
+            <span class="error-hint">First name is required.</span>
+          }
         </div>
 
         <div class="input-group">
           <label for="lastName">Last Name</label>
           <input type="text" id="lastName" [formControl]="registerForm.controls.lastName" placeholder="Nibladze" />
+          @if (registerForm.controls.lastName.invalid && registerForm.controls.lastName.touched) {
+            <span class="error-hint">Last name is required.</span>
+          }
         </div>
       </div>
 
       <div class="input-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" [formControl]="registerForm.controls.email" placeholder="name@example.com" />
+        @if (registerForm.controls.email.invalid && registerForm.controls.email.touched) {
+          <span class="error-hint">Provide a valid email address.</span>
+        }
       </div>
 
       <div class="input-group">
         <label for="password">Password</label>
         <input type="password" id="password" [formControl]="registerForm.controls.password" placeholder="••••••••" />
+        @if (registerForm.controls.password.invalid && registerForm.controls.password.touched) {
+          <span class="error-hint">Password must be at least 6 characters long.</span>
+        }
       </div>
 
-      <button type="submit" class="btn-auth-submit">Register</button>
+      <div class="input-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" [formControl]="registerForm.controls.phoneNumber" placeholder="+995 5xx xxx xxx" />
+      </div>
+
+      <div class="input-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" [formControl]="registerForm.controls.address" placeholder="Tbilisi, Georgia" />
+      </div>
+
+      <div class="input-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" [formControl]="registerForm.controls.age" placeholder="21" />
+        @if (registerForm.controls.age.invalid && registerForm.controls.age.touched) {
+          <span class="error-hint">Age must be a valid number between 1 and 120.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-auth-submit" [disabled]="registerForm.invalid">Register</button>
     </form>
   </div>
 </div>

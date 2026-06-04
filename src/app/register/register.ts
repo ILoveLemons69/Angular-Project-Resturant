@@ -18,12 +18,16 @@ export class Register {
   public registerForm = this.fb.group({
     firstName: this.fb.control('', [Validators.required]),
     lastName: this.fb.control('', [Validators.required]),
-    email: this.fb.control('', [Validators.required]),
-    password: this.fb.control('', [Validators.required]),
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+    phoneNumber: this.fb.control(''),
+    address: this.fb.control(''),
+    age: this.fb.control<number | null>(null, [Validators.required, Validators.min(1), Validators.max(120)])
   });
 
   public submit() {
     if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
       return;
     }
     Swal.fire({
@@ -35,15 +39,28 @@ export class Register {
       allowOutsideClick: false,
       allowEscapeKey: false
     });
+
+    const registeredEmail = this.registerForm.controls.email.value ?? '';
+    const phoneString = this.registerForm.controls.phoneNumber.value ?? '';
+    const addressString = this.registerForm.controls.address.value ?? '';
+    const ageValue = this.registerForm.controls.age.value ? Number(this.registerForm.controls.age.value) : 18;
+
     this.service
       .register({
         firstName: this.registerForm.controls.firstName.value ?? '',
         lastName: this.registerForm.controls.lastName.value ?? '',
-        email: this.registerForm.controls.email.value ?? '',
+        email: registeredEmail,
         password: this.registerForm.controls.password.value ?? '',
+        phoneNumber: phoneString,
+        address: addressString,
+        age: ageValue,
       })
       .subscribe({
-        next: (data) => {
+        next: (data: any) => {
+          if (phoneString) localStorage.setItem(`${registeredEmail}_phone`, phoneString);
+          if (addressString) localStorage.setItem(`${registeredEmail}_address`, addressString);
+          localStorage.setItem(`${registeredEmail}_age`, ageValue.toString());
+
           Swal.fire({
             title: 'Verify Your Email',
             text: 'We have sent a verification link to your email address. Please check your inbox and confirm your account before logging in.',
@@ -55,10 +72,10 @@ export class Register {
             this.router.navigate(['/login']);
           });
         },
-        error: (error) => {
+        error: (error: any) => {
           Swal.fire({
             title: 'Registration Failed',
-            text: error.error?.message || 'An error occurred during registration.',
+            text: error.error?.detail || error.error?.message || 'An error occurred during registration.',
             icon: 'error',
             confirmButtonColor: '#dc3545'
           });

@@ -9,6 +9,9 @@ export interface IRegister {
   lastName: string;
   email: string;
   password: string;
+  phoneNumber?: string;
+  address?: string;
+  age?: number;
 }
 
 export interface ILogin {
@@ -20,16 +23,12 @@ export interface IUser {
   id: number;
   createdAt: string;
   updatedAt: string;
-
   firstName: string;
   lastName: string;
-
   email: string;
   password: string;
-
   isVerified: boolean;
   role: number;
-
   adminLogin: string;
 }
 
@@ -59,7 +58,7 @@ export class UserService {
     });
   }
 
-  public login(data: ILogin): Observable<any> {
+  public login(data: any): Observable<any> {
     return this.http.post<any>(`${environment.baseUrl}/auth/login`, data, {
       headers: {
         'Conetent-Type': 'application/json',
@@ -78,12 +77,17 @@ export class UserService {
 
   public logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('current_user_email');
     this.isLoggedIn.set(false);
     this.router.navigate(['/']);
   }
 
   public getProfile(): Observable<any> {
     return this.http.get<any>(`${environment.baseUrl}/users/me`);
+  }
+
+  public editProfile(data: { firstName: string; lastName: string; picture: string; phoneNumber: string; address: string; age: number }): Observable<any> {
+    return this.http.put<any>(`${environment.baseUrl}/users/edit`, data);
   }
 
   public changePassword(data: any): Observable<any> {
